@@ -1,8 +1,8 @@
 import { CacheProvider, ThemeProvider } from "@emotion/react";
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { HelmetProvider } from "react-helmet-async";
 import { prefixer } from "stylis";
 import stylisRTLPlugin from "stylis-plugin-rtl";
-import { theme } from "./theme";
+import { lightTheme, darkTheme } from "./theme";
 import createCache from "@emotion/cache";
 import { Grid2 } from "@mui/material";
 
@@ -10,15 +10,14 @@ const cacheRTL = createCache({
   key: "muirtl",
   stylisPlugins: [prefixer, stylisRTLPlugin],
 });
-const MainLayout = ({ children, name }) => {
+
+const MainLayout = ({ children, name, mode }) => {
+  const theme = mode === "dark" ? darkTheme : lightTheme;
   return (
     <CacheProvider value={cacheRTL}>
       <ThemeProvider theme={theme}>
         <HelmetProvider>
-          <Helmet>
-            <title>وب سایت شخصی مهلا حصاری</title>
-          </Helmet>
-          <Grid2 container sx={{ height: "100vh" }}>
+          <Grid2 container sx={{ height: "100vh", direction: "rtl" }}>
             {children}
           </Grid2>
         </HelmetProvider>

@@ -1,60 +1,82 @@
 import MainLayout from "../layouts/MainLayout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Sidebar } from "../components/sidebar";
-import { Typography } from "@mui/material";
+import { Typography, useMediaQuery } from "@mui/material";
 import SidebarContainer from "./SidebarContainer";
 import MainContext from "../context";
 import PagesContainer from "./PagesContainer";
-import Page from "../pages/components/Page";
+import { Page } from "../components/pages";
 import { DrawerActionButton } from "../components/drawer";
-import { Home } from "../pages";
-import About from "../pages/components/About";
+
+import { useTheme } from "@mui/material/styles";
+import { Projects, Home, Contact, About, Resume } from "../pages";
 
 function App() {
   const [pageNumber, setPageNumber] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  const [mode, setMode] = useState();
+
+  const theme = useTheme();
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme:dark)");
+
+  useEffect(() => {
+    setMode(prefersDarkMode ? "dark" : "light");
+  }, []);
+
+  useEffect(() => {
+    if (isMdUp) {
+      setDrawerOpen(false);
+    }
+  }, [isMdUp]);
+
   const handlePageNumber = (event, newPage) => {
     setPageNumber(newPage);
   };
 
+  const handleThemeChange = () => {
+    setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+  };
   return (
     <MainContext.Provider
-      value={{ pageNumber, handlePageNumber, drawerOpen, setDrawerOpen }}
+      value={{
+        pageNumber,
+        handlePageNumber,
+        handleThemeChange,
+        drawerOpen,
+        setDrawerOpen,
+      }}
     >
-      <MainLayout>
-        <SidebarContainer>
-          <Sidebar />
-        </SidebarContainer>
+      <MainLayout mode={mode}>
         <DrawerActionButton />
         <PagesContainer>
           <Page pageNumber={pageNumber} index={0}>
-            <Home />
+            <Home helmetTitle="وب سایت شخصی مهلا حصاری" />
           </Page>
           <Page pageNumber={pageNumber} index={1}>
-            <About />
+            <About helmetTitle="وب سایت شخصی | درباره من" mode={mode} />
           </Page>
           <Page pageNumber={pageNumber} index={2}>
             <Typography variant="h5" sx={{ textAlign: "center" }}>
-              رزومه من
+              <Resume helmetTitle="وب سایت شخصی | رزومه من" />
             </Typography>
           </Page>
           <Page pageNumber={pageNumber} index={3}>
             <Typography variant="h5" sx={{ textAlign: "center" }}>
-              نمونه کارها
+              <Projects helmetTitle="وب سایت شخصی | پروژ ه های من" />
             </Typography>
           </Page>
+
           <Page pageNumber={pageNumber} index={4}>
             <Typography variant="h5" sx={{ textAlign: "center" }}>
-              نظرات دانشجویان
-            </Typography>
-          </Page>
-          <Page pageNumber={pageNumber} index={5}>
-            <Typography variant="h5" sx={{ textAlign: "center" }}>
-              ارتباط با من
+              <Contact helmetTitle="وب سایت شخصی | ارتباط با من" />
             </Typography>
           </Page>
         </PagesContainer>
+        <SidebarContainer>
+          <Sidebar />
+        </SidebarContainer>
       </MainLayout>
     </MainContext.Provider>
   );

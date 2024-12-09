@@ -1,27 +1,32 @@
-import { createTheme } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
 
-export const theme = createTheme({
+export const lightTheme = createTheme({
+  direction: "rtl",
+  palette: {
+    mode: "light",
+    primary: {
+      main: "#8be9fd",
+    },
+    secondary: {
+      main: "#bd93f9",
+    },
+  },
+  typography: {
+    fontFamily: "Tanha, Vazir, Roboto",
+  },
+});
+export const darkTheme = createTheme({
   direction: "rtl",
   palette: {
     mode: "dark",
     primary: {
-      main: "#8BE9FD",
+      main: "#8be9fd",
     },
     secondary: {
-      main: "#BD93F9",
-    },
-    error: {
-      main: "#FF5555",
+      main: "#bd93f9",
     },
   },
   typography: {
-    fontFamily: "Vazir, Roboto",
-  },
-  components: {
-    MuiButtonBase: {
-      defaultProps: {
-        disableRipple: true,
-      },
-    },
+    fontFamily: "Tanha, Vazir, Roboto",
   },
 });

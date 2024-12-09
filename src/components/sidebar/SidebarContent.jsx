@@ -1,5 +1,4 @@
 import { Box, Divider } from "@mui/material";
-import { grey } from "@mui/material/colors";
 import { SidebarHeader, SidebarFooter, SidebarTabs } from "./";
 
 const SidebarContent = () => {
@@ -9,12 +8,13 @@ const SidebarContent = () => {
         justifyContent: "center",
         textAlign: "center",
         mt: 2,
+        direction: "rtl",
       }}
     >
       <SidebarHeader />
-      <Divider variant="middle" color={grey[900]} sx={{ pt: 1 }} />
+      <Divider variant="middle" />
       <SidebarTabs />
-      <Divider variant="middle" color={grey[900]} sx={{ pt: 1 }} />
+      <Divider variant="middle" sx={{ pt: 1 }} />
       <SidebarFooter />
     </Box>
   );
